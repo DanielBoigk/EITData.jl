@@ -29,7 +29,7 @@ module EITData
 
     include("GenerateMesh/CreateGeo.jl")
 
-    include("GenerateFullData/Generate.jl")
+    include("GenerateFullData/GenerateFullData.jl")
 
 
 

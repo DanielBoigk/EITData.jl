@@ -2,7 +2,27 @@ export assemble_matrices
 export construct_DtN_vector
 export construct_NtD_vector
 
-function assemble_matrices(γ, U_n, V_n, v_n, u_n, U_d, V_d, v_d, u_d, assem_n, assem_d)
+
+
+function assemble_DtN_matrix(γ,U_d,V_d,v_d,u_d,assem_d,dΩ)
+    # dΩ = 
+    a(u, v) = ∫( γ * ∇(v) ⋅ ∇(u) )dΩ
+    matcontribs_d = a(u_d, v_d)
+    matdata_d = collect_cell_matrix(U_d, V_d, matcontribs_d)
+    K_d = assemble_matrix(assem_d, matdata_d)
+    return K_d
+end
+
+function assemble_NtD_matrix(γ, U_n,V_n, v_n, u_n, assem_n,dΩ)
+    a(u, v) = ∫( γ * ∇(v) ⋅ ∇(u) )dΩ
+    matcontribs_n = a(u_n, v_n)
+    matdata_n = collect_cell_matrix(U_n, V_n, matcontribs_n)
+    K_n = assemble_matrix(assem_n, matdata_n)
+    return K_n
+end
+
+
+function assemble_matrices(γ, U_n, V_n, v_n, u_n, U_d, V_d, v_d, u_d, assem_n, assem_d,dΩ)
     a(u, v) = ∫( γ * ∇(v) ⋅ ∇(u) )dΩ
     matcontribs_n = a(u_n, v_n)
     matdata_n = collect_cell_matrix(U_n, V_n, matcontribs_n)
@@ -13,7 +33,7 @@ function assemble_matrices(γ, U_n, V_n, v_n, u_n, U_d, V_d, v_d, u_d, assem_n, 
     return K_n, K_d
 end
 
-function assemble_matrices(γ, U_n, V_n, v_n, u_n, U_d, V_d, v_d, u_d)
+function assemble_matrices(γ, U_n, V_n, v_n, u_n, U_d, V_d, v_d, u_d,dΩ)
     a(u, v) = ∫( γ * ∇(v) ⋅ ∇(u) )dΩ
     assem_n = SparseMatrixAssembler(U_n, V_n)
     matcontribs_n = a(u_n, v_n)
