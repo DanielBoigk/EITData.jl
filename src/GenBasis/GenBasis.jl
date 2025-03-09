@@ -1,3 +1,6 @@
+export mean_zero_basis, generate_basis_vectors
+
+
 # Generates Basis vectors that are orthonormal and mean 0
 function mean_zero_basis(n::Int, m::Int)
     out = zeros(n)  
