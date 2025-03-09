@@ -26,6 +26,7 @@ struct EITOperatorData
     # Just give conductivity as a function that is defined over [-1,1]x[-1,1]
     N_n::Int64
     N_d::Int64
+    m::Int64
     function EITOperatorData(mesh, conductivity)
         Ω = Triangulation(mesh)
         dΩ = Measure(Ω, 2)
@@ -52,6 +53,7 @@ struct EITOperatorData
         K_d = assemble_matrix(assem_d,matdata_d)
         N_n = num_free_dofs(V_n)
         N_d = num_free_dofs(V_d)
-        new(mesh,γ,Ω,dΩ,Γ,dΓ,V_n,U_n,V_d,U_d,u_n,v_n,u_d,v_d,reffe, K_d,K_n)
+        m = N_n-N_d
+        new(mesh,γ,Ω,dΩ,Γ,dΓ,V_n,U_n,V_d,U_d,u_n,v_n,u_d,v_d,reffe, K_d,K_n, N_n,N_d,m)
     end
 end
