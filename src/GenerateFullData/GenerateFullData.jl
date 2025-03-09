@@ -3,6 +3,6 @@ include("Assemblers.jl")
 include("Data.jl")
 
 
-include("EITForwardSolution.jl")
+include("EITOperatorData.jl")
 
 export EITForwardSolver

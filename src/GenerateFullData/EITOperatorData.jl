@@ -1,4 +1,8 @@
-struct EITForwardSolver
+
+# Maybe try to also provide the SparseMatrixAssembler
+# For whatever reasen certain functions seem to "eat" the Assembler...
+
+struct EITOperatorData
     mesh
     γ::CellField  # Conductivity field
     Ω::Triangulation  # Domain
@@ -17,7 +21,7 @@ struct EITForwardSolver
     K_d  # Dirichlet matrix
     K_n  # Neumann matrix
     # Just give conductivity as a function that is defined over [-1,1]x[-1,1]
-    function EITForwardSolver(mesh, conductivity)
+    function EITOperatorData(mesh, conductivity)
         Ω = Triangulation(mesh)
         dΩ = Measure(Ω, 2)
         Γ = BoundaryTriangulation(mesh, tags= "boundary")
