@@ -2,6 +2,9 @@
 # Maybe try to also provide the SparseMatrixAssembler
 # For whatever reasen certain functions seem to "eat" the Assembler...
 
+
+
+
 struct EITOperatorData
     mesh
     γ::CellField  # Conductivity field
@@ -21,6 +24,8 @@ struct EITOperatorData
     K_d  # Dirichlet matrix
     K_n  # Neumann matrix
     # Just give conductivity as a function that is defined over [-1,1]x[-1,1]
+    N_n::Int64
+    N_d::Int64
     function EITOperatorData(mesh, conductivity)
         Ω = Triangulation(mesh)
         dΩ = Measure(Ω, 2)
@@ -45,6 +50,8 @@ struct EITOperatorData
         matdata_d =  collect_cell_matrix(U_d,V_d,matcontribs_d)
         K_n = assemble_matrix(assem_n,matdata_n)
         K_d = assemble_matrix(assem_d,matdata_d)
+        N_n = num_free_dofs(V_n)
+        N_d = num_free_dofs(V_d)
         new(mesh,γ,Ω,dΩ,Γ,dΓ,V_n,U_n,V_d,U_d,u_n,v_n,u_d,v_d,reffe, K_d,K_n)
     end
 end
