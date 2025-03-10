@@ -21,10 +21,20 @@ struct EITFullData
         end
         # if given no function look at given sigma and mode and generate interpolable sigma function
 
-
+        
         conductivity = cond_func(args...)
+
+        if typeof(conductivity) == Array
+            if ndims(conductivity) == 2
+                conductivity = interpolate_array_2D(conductivity)
+            elseif ndims(conductivity) == 3
+                conductivity = interpolate_array_3D(conductivity)
+            end
+        end
+        
         # Now generate the Operator from that
 
+        
         op = EITOperatorData(mesh,conductivity)
 
 
