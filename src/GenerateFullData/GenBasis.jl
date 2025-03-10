@@ -1,4 +1,3 @@
-export FullGridapData
 
 
 # generates some preliminary orthonormal basis
@@ -28,44 +27,4 @@ function subtract_column_mean!(A::Matrix, n::Int)
     A .-= col_means
     
     return A
-end
-
-struct FullGridapData
-    mesh            # Specify the type here if you know it, e.g., Mesh
-    reffe           # Element type
-    Ω
-    dΩ
-    Γ
-    dΓ
-
-    boundary_tags
-
-    f_dim::Int
-    g_dim::Int
-
-    U_n
-    V_n
-    U_d
-    V_d
-    K_n
-    K_d
-
-    u_n
-    v_n
-    u_d
-    v_d
-
-    γ               # interpolable version of γ
-    γ_vec::Vector{Any}
-
-    no_pairs::Int
-
-    f_vectors::Vector{Any}
-    g_vectors::Vector{Any}  # This should be an orthonormal basis and ordered after singular values
-
-    u_funcs::Vector{Any}
-    u_vecs::Vector{Any}
-
-    singular_values::Vector{Any}
-    
 end

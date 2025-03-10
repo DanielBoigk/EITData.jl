@@ -1,3 +1,4 @@
+export EITFullData
 
 function default_func()
     interpolate_array_2D(gen_discrete_data_2D())
@@ -6,7 +7,7 @@ end
 struct EITFullData
     #Something
     op::EITOperatorData
-    data::EITData
+    data::EITBoundaryData
 
     function EITFullData(path::String= "", modes::Int64=0, cond_func::Function = default_func, args...)
         #load mesh of some kind
@@ -41,11 +42,11 @@ struct EITFullData
         # now generate a basis and solve
         # Do SVD and solve; Discard unnecessarry modes
         if modes <= 0 
-            data = EITData(op, op.m-1)
+            data = EITBoundaryData(op, op.m-1)
         elseif modes > op.m-1
-            data = EITData(op, op.m-1)
+            data = EITBoundaryData(op, op.m-1)
         else
-            data = EITData(op,modes)
+            data = EITBoundaryData(op,modes)
         end
         
         new(op, data)

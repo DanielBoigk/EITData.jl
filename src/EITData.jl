@@ -18,18 +18,14 @@ module EITData
     # This generates the conductivity data using gaussian filters and returns either an array or function that uses linear interpolation.
     include("GenerateConductivity/GenerateConductivity.jl")
 
-    
-    # include("Interpolation/Interpolation.jl")
-    
-    #include("CalculateGradient/CalculateGradient.jl")
+    # This generates the mesh and the boundary conditions.
+    include("CreateMesh/CreateMesh.jl")
 
-    #include("GenerateFullData/GenerateFullData.jl")
-
-    #include("Optimizer/Optimizer.jl")
-
-    include("GenerateMesh/CreateGeo.jl")
-
+    # This generates the full data for the EIT problem.
     include("GenerateFullData/GenerateFullData.jl")
+
+    # This generates the basis vectors for the current patterns.
+    include("CurrentPatterns/CurrentPatterns.jl")
 
 
 

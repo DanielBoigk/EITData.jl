@@ -1,8 +1,8 @@
 
 # Maybe try to also provide the SparseMatrixAssembler
-# For whatever reasen certain functions seem to "eat" the Assembler...
+# For whatever reason certain functions seem to "eat" the Assembler...
 
-
+export EITOperatorData
 
 
 struct EITOperatorData
