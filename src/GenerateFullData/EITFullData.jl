@@ -13,8 +13,9 @@ struct EITFullData
         # maybe check if there is a path given if not
         if path==""
             #Do Something
+            create_circle_geo()
             # Just load standard path.
-            mesh = GmshDiscreteModel(path)
+            mesh = GmshDiscreteModel("circle.msh")
         else
             mesh = GmshDiscreteModel(path)
         end
