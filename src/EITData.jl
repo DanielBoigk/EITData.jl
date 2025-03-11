@@ -27,6 +27,7 @@ module EITData
     # This generates the basis vectors for the current patterns.
     include("CurrentPatterns/CurrentPatterns.jl")
 
+    # This adds option to save and load data.
     include("Export/Export.jl")
 
 end # module EITData

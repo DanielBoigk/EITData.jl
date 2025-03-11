@@ -4,7 +4,7 @@ include("Data.jl")
 
 
 include("EITOperatorData.jl")
-include("EITData.jl")
+include("EITBoundaryData.jl")
 include("EITFullData.jl")
 
 export EITForwardSolver
