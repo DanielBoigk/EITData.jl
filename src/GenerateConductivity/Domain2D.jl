@@ -1,4 +1,30 @@
 
+"""
+    gen_cont_data_2D(n_elem::Int=100, σ1::Float64=5.0, σ2::Float64=5.0; pos_only::Bool=true, mode::String="abs", min_val::Float64=1.0e-10, is_periodic::Bool=false, mean_zero::Bool=false, use_scipy::Bool=true)
+
+Generate a 2D array of continuous data with optional periodicity, positivity, and Gaussian filtering.
+
+# Arguments
+- `n_elem::Int=100`: Number of elements along each dimension of the output array.
+- `σ1::Float64=5.0`: Standard deviation for Gaussian filter in the first dimension.
+- `σ2::Float64=5.0`: Standard deviation for Gaussian filter in the second dimension.
+- `pos_only::Bool=true`: If true, ensures the output array has only positive values.
+- `mode::String="abs"`: Method to ensure positivity:
+  - `"abs"`: Take the absolute value of the random data before filtering.
+  - `"exp"`: Apply exponential function to the filtered data.
+- `min_val::Float64=1.0e-10`: Minimum value added to ensure positivity.
+- `is_periodic::Bool=false`: If true, generates periodic data using circular padding.
+- `mean_zero::Bool=false`: If true, adjusts the data to have zero mean (only if `pos_only` is false).
+- `use_scipy::Bool=true`: If true, uses SciPy for Gaussian filtering via the `gauß_filter` function.
+
+# Returns
+- A 2D array of size `(n_elem, n_elem)` with the generated continuous data.
+
+# Notes
+- The output is scaled such that its mean (or mean of absolute values if `pos_only` is false) is approximately 1.
+- If `is_periodic` is false, the function generates a larger array (3 times the size) and extracts the central `(n_elem, n_elem)` portion to avoid boundary effects.
+- Requires the `Statistics` package for mean calculations and assumes `gauß_filter` is defined elsewhere.
+"""
 
 function gen_cont_data_2D( n_elem::Int=100, σ1::Float64=5.0, σ2::Float64=5.0,; pos_only::Bool=true, mode::String="abs", min_val::Float64=1.0e-10, is_periodic::Bool=false, mean_zero::Bool=false, use_scipy::Bool=true)
     # Initialize array with random entries
@@ -64,11 +90,31 @@ end
 
 
 
-# Add some more functions that can create some data:
+"""
+    gen_discrete_data_2D(n_elem::Int=100, σ1::Float64=5.0, σ2::Float64=5.0; pos_only::Bool=true, mode::String="abs", threshold::Float64=0.0, is_periodic::Bool=false, set_one_zero::Bool=false, use_scipy::Bool=true)
 
+Generate a 2D array with discrete values based on a threshold applied to filtered random data.
 
-#The discrete case:
+# Arguments
+- `n_elem::Int=100`: Number of elements along each dimension of the output array.
+- `σ1::Float64=5.0`: Standard deviation for Gaussian filter in the first dimension.
+- `σ2::Float64=5.0`: Standard deviation for Gaussian filter in the second dimension.
+- `pos_only::Bool=true`: If true, ensures the discrete values are positive.
+- `mode::String="abs"`: Not used in this function (included for compatibility with `gen_cont_data_2D`).
+- `threshold::Float64=0.0`: Threshold value to determine discrete levels.
+- `is_periodic::Bool=false`: If true, generates periodic data using circular padding.
+- `set_one_zero::Bool=false`: If true, forces one of the discrete values to be zero.
+- `use_scipy::Bool=true`: If true, uses SciPy for Gaussian filtering via the `gauß_filter` function.
 
+# Returns
+- A 2D array of size `(n_elem, n_elem)` with discrete values (either `a` or `b`).
+
+# Notes
+- The discrete values `a` and `b` are randomly generated, with `a` set to 0 if `set_one_zero` is true.
+- If `pos_only` is true, both `a` and `b` are non-negative.
+- If `is_periodic` is false, the function generates a larger array (3 times the size) and extracts the central `(n_elem, n_elem)` portion to avoid boundary effects.
+- Assumes `gauß_filter` is defined elsewhere.
+"""
 function gen_discrete_data_2D(n_elem::Int=100, σ1::Float64=5.0, σ2::Float64=5.0,; pos_only::Bool=true, mode::String="abs", threshold::Float64=0.0, is_periodic::Bool=false, set_one_zero::Bool=false, use_scipy::Bool=true)
 if set_one_zero
     a = 0
@@ -102,7 +148,28 @@ end
 return A
 end
 
-# This function combines data 
+
+"""
+    combine_cont_dicrete_2D(D::Array{Float64,2}, C1::Array{Float64,2}, C2::Array{Float64,2}, is_zero::Bool=false, ensure_positive::Bool=false)
+
+Combine discrete and continuous data arrays based on the values in the discrete array.
+
+# Arguments
+- `D::Array{Float64,2}`: The discrete data array.
+- `C1::Array{Float64,2}`: The first continuous data array to add.
+- `C2::Array{Float64,2}`: The second continuous data array to add.
+- `is_zero::Bool=false`: If true, uses zero as the threshold for combining.
+- `ensure_positive::Bool=false`: Not used in this function (included for potential compatibility).
+
+# Returns
+- A 2D array resulting from adding `C1` or `C2` to `D` based on the values in `D`.
+
+# Notes
+- If `is_zero` is true, adds `C1` where `D` is zero and `C2` elsewhere.
+- If `is_zero` is false, adds `C1` where `D` equals its minimum value and `C2` elsewhere.
+- The function assumes that `D`, `C1`, and `C2` have the same dimensions.
+"""
+
 function combine_cont_dicrete_2D(D::Array{Float64,2},C1::Array{Float64,2},C2::Array{Float64,2}, is_zero::Bool = false, ensure_positive = false)
     A = copy(D)
     values = unique(A)

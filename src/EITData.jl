@@ -6,7 +6,7 @@ module EITData
     using Gridap.Geometry
     using Gridap.ReferenceFEs
     using LineSearches: BackTracking
-
+    using Serialization
     #using PyCall
     #const mymodule = pyimport("../python/CalderonFEM.py")
     using SciPy
@@ -27,6 +27,6 @@ module EITData
     # This generates the basis vectors for the current patterns.
     include("CurrentPatterns/CurrentPatterns.jl")
 
-
+    include("Export/Export.jl")
 
 end # module EITData
