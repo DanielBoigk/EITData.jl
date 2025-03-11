@@ -23,8 +23,8 @@ struct EITBoundaryData
     u::Dict{Int,Gridap.FESpaces.SingleFieldFEFunction}
 
     # the values on the boundary as a function if that's possible:
-    g_func::Dict{Int,Gridap.FESpaces.SingleFieldFEFunction}
-    f_func::Dict{Int,Gridap.FESpaces.SingleFieldFEFunction}
+    #g_func::Dict{Int,Gridap.FESpaces.SingleFieldFEFunction}
+    #f_func::Dict{Int,Gridap.FESpaces.SingleFieldFEFunction}
 
 
     function EITBoundaryData(op, modes)
@@ -35,19 +35,12 @@ struct EITBoundaryData
 
         g_vecs = make_force_vectors(G[:,1:modes],N_n)
         f_vecs = make_force_vectors(F[:,1:modes],N_d)
-        m = op.m-1
-        G_prelim = generate_basis_vectors(N_n,m)
-        
-        K_factorized = lu(op.K_n)
 
-        U_f_prelim = K_factorized \ G_prelim
-        U_f_prelim = subtract_column_mean!(U_f_prelim,m)
-        G_small = G_prelim[:,1:m]
-        U_f_small = U_f_prelim[1:m,:]
+        u = calc_true_solutions(op.K_d, F[:,1:modes],op.V_d,op.m_d,modes)
 
 
-
-
-        new(modes,singular_values,G,F,g_vecs,f_vecs,u,g_func,f_func)
+        new(modes,singular_values,G,F,g_vecs,f_vecs,u 
+        #,g_func,f_func
+        )
     end
 end

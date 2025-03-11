@@ -48,3 +48,17 @@ function make_force_vectors(M_short::Array{Float64,2}, N::Int)
     end
     M_dict
 end
+
+
+function calc_true_solutions(K::Array{Float64,2}, G::Array{Float64,2},V::Gridap.FESpaces.FESpace, m, modes)
+    K_LU = lu(K)
+    G_full = zeros(Float64, size(K,1), modes)
+    G_full[1:m, :] = G[:,1:modes]
+    U_n = K_LU \ G
+    U_n = subtract_column_mean!(U,m)
+    U_dict = Dict{Int,Gridap.FESpaces.FEFunction}()
+    for i in 1:modes
+        U_dict[i] = Gridap.FESpaces.FEFunction(V, U_n[:,i])
+    end
+    U_dict
+end
