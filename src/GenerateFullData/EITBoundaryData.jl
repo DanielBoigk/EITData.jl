@@ -1,5 +1,33 @@
 
-# This is the data structure for the EIT boundary data.
+"""
+    struct EITBoundaryData
+
+A data structure containing the boundary data for the Electrical Impedance Tomography (EIT) problem, including orthonormal basis matrices, force vectors, and true solutions.
+
+# Fields
+- `modes::Int64`: The number of modes used to generate the boundary data.
+- `singular_values::Array{Float64,1}`: The singular values corresponding to the modes.
+- `G::Array{Float64,2}`: Orthonormal matrix containing Neumann boundary data for the EIT problem.
+- `F::Array{Float64,2}`: Matrix containing Dirichlet boundary data for the EIT problem.
+- `g_vecs::Dict{Int,Array{Float64,2}}`: Dictionary of force vectors for Neumann boundary data, keyed by mode index.
+- `f_vecs::Dict{Int,Array{Float64,2}}`: Dictionary of force vectors for Dirichlet boundary data, keyed by mode index.
+- `u::Dict{Int,Gridap.FESpaces.SingleFieldFEFunction}`: Dictionary of true solutions (finite element functions) for each mode.
+
+# Constructor
+    EITBoundaryData(op, modes)
+
+Constructs an `EITBoundaryData` instance using the provided operator data and number of modes.
+
+# Arguments
+- `op`: An instance of `EITOperatorData` containing the necessary operator and mesh information.
+- `modes::Int64`: The number of modes to use for generating the boundary data.
+
+# Notes
+- The constructor computes orthonormal basis matrices `G` and `F` using `make_basis_matrices`, generates force vectors using `make_force_vectors`, and calculates true solutions using `calc_true_solutions`.
+- The matrices `G` and `F` are orthonormal and represent the Neumann and Dirichlet boundary conditions, respectively.
+- The true solutions `u` are stored as finite element functions for each mode.
+- Commented-out fields `g_func` and `f_func` suggest potential future extensions for boundary data as functions, but they are not currently implemented.
+"""
 struct EITBoundaryData
     
     

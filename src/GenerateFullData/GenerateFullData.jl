@@ -1,12 +1,8 @@
 
-#include("Assemblers.jl")
-include("Data.jl")
-
 
 include("EITOperatorData.jl")
+export EITOperatorData
 include("EITBoundaryData.jl")
+export EITBoundaryData
 include("EITFullData.jl")
-
-export EITForwardSolver
-
-
+export EITFullData, default_func

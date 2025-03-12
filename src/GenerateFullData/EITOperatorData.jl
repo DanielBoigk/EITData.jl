@@ -2,9 +2,49 @@
 # Maybe try to also provide the SparseMatrixAssembler
 # For whatever reason certain functions seem to "eat" the Assembler...
 
-export EITOperatorData
 
+"""
+    struct EITOperatorData
 
+A data structure containing the operator and finite element space information for the Electrical Impedance Tomography (EIT) problem.
+
+# Fields
+- `mesh`: The computational mesh.
+- `γ::CellField`: The conductivity field interpolated over the finite element space.
+- `Ω::Triangulation`: The domain triangulation.
+- `dΩ::Measure`: The volume measure for integration.
+- `Γ::BoundaryTriangulation`: The boundary triangulation.
+- `dΓ::Measure`: The boundary measure for integration.
+- `V_n::FESpace`: The test finite element space for Neumann problems.
+- `U_n::FESpace`: The trial finite element space for Neumann problems.
+- `V_d::FESpace`: The test finite element space for Dirichlet problems.
+- `U_d::FESpace`: The trial finite element space for Dirichlet problems.
+- `u_n`: The trial finite element basis for Neumann problems.
+- `v_n`: The test finite element basis for Neumann problems.
+- `u_d`: The trial finite element basis for Dirichlet problems.
+- `v_d`: The test finite element basis for Dirichlet problems.
+- `reffe`: The reference finite element (Lagrangian, order 1).
+- `K_d`: The stiffness matrix for Dirichlet problems.
+- `K_n`: The stiffness matrix for Neumann problems.
+- `N_n::Int64`: The number of free degrees of freedom for Neumann problems.
+- `N_d::Int64`: The number of free degrees of freedom for Dirichlet problems.
+- `m::Int64`: The number of boundary degrees of freedom (`N_n - N_d`).
+
+# Constructor
+    EITOperatorData(mesh, conductivity)
+
+Constructs an `EITOperatorData` instance using the provided mesh and conductivity function.
+
+# Arguments
+- `mesh`: The computational mesh.
+- `conductivity`: A function or array representing the conductivity, defined over the domain (e.g., [-1,1] × [-1,1]), which is interpolated onto the finite element space.
+
+# Notes
+- The constructor sets up finite element spaces, assembles stiffness matrices for both Neumann and Dirichlet problems, and computes the necessary degrees of freedom.
+- The conductivity `γ` is interpolated onto the finite element space `V_n` using `interpolate_everywhere`.
+- The stiffness matrices `K_n` and `K_d` are assembled using the weak form of the EIT problem: ∫(γ * ∇v ⋅ ∇u) dΩ.
+- The finite element spaces use H1 conformity, with Dirichlet conditions applied on the boundary for `V_d` and `U_d`.
+"""
 struct EITOperatorData
     mesh
     γ::CellField  # Conductivity field
