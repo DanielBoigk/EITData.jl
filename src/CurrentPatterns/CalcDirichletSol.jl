@@ -82,7 +82,7 @@ Create a dictionary of force vectors by extending a short matrix `M_short` to fu
 function make_force_vectors(M_short::Array{Float64,2}, N::Int)
     m = size(M_short,2)
     M = zeros(Float64, N, m)
-    M[1:m, :] = M_short
+    M[1:m, :] = M_short[1:m, :]
     # please also put every vector in a dictionary with labels 1, ...,m
     M_dict = Dict{Int,Array{Float64,2}}()
     for i in 1:m
