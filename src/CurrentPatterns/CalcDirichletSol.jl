@@ -30,7 +30,7 @@ Generate basis matrices for the Electrical Impedance Tomography (EIT) problem by
 - This function is critical for creating basis matrices representing boundary and interior potentials in EIT.
 """
 
-function make_basis_matrices(K_n,N_n,N_d, useSVD::bool = true)
+function make_basis_matrices(K,N_n,N_d, useSVD::Bool = true)
     m = N_n-N_d
     G = generate_basis_vectors(N_n, m-1)
     K_factorized = lu(K)
@@ -51,6 +51,8 @@ function make_basis_matrices(K_n,N_n,N_d, useSVD::bool = true)
         G_prelim[:, 1:m-1] = qr(G_prelim).Q[:, 1:m-1]
         F_prelim[:, 1:m-1] = subtract_column_mean!(F_prelim[:, 1:m-1],m)
         G_prelim[:, 1:m-1] = subtract_column_mean!(G_prelim[:, 1:m-1],m)
+        #please multiply columns of F_prelim by the corresponding singular values from S
+        F_prelim[:, 1:m-1] = F_prelim[:, 1:m-1] * Diagonal(S[1:m-1]) 
         return G_prelim, F_prelim, S
     else
         # it should not enter this branch if using the standard constructor for EITBoundaryData, since it useSVD is true by default

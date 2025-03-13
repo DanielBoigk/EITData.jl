@@ -78,7 +78,7 @@ struct EITOperatorData
         V_d = TestFESpace(mesh, reffe, conformity=:H1, dirichlet_tags="boundary")
         U_d = TrialFESpace(V_d)
         γ = interpolate_everywhere(conductivity, V_n)
-        a(u, v) = ∫( γₕ * ∇(v) ⋅ ∇(u) )dΩ
+        a(u, v) = ∫( γ * ∇(v) ⋅ ∇(u) )dΩ
         assem_n = SparseMatrixAssembler(U_n, V_n)
         assem_d = SparseMatrixAssembler(U_d, V_d)
         u_n = get_trial_fe_basis(U_n)

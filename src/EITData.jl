@@ -28,6 +28,6 @@ module EITData
     include("CurrentPatterns/CurrentPatterns.jl")
 
     # This adds option to save and load data.
-    include("Export/Export.jl")
+    #include("Export/Export.jl")
 
 end # module EITData
