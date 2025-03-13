@@ -63,8 +63,7 @@ struct EITBoundaryData
 
         g_vecs = make_force_vectors(G[:,1:modes],N_n)
         f_vecs = make_force_vectors(F[:,1:modes],N_d)
-
-        u = calc_true_solutions(op.K_d, F[:,1:modes],op.V_d,op.m_d,modes)
+        u = calc_true_solutions(op.K_d, F[:,1:modes],op.V_d,op.m,modes)
 
 
         new(modes,singular_values,G,F,g_vecs,f_vecs,u 
