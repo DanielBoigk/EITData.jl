@@ -17,7 +17,7 @@ struct MinimalPair
     error_Linf::Float64
     error_wasserstein::Float64
 
-    function MinimalPair(data::EITFullData)
+    #function MinimalPair(data::EITFullData)
 
-    end
+    #end
 end
