@@ -4,7 +4,7 @@ The Data generated are meant to be used for training a neural network to solve t
 
 ## Installation
 To install the package, you can use the Julia package manager:
-pkg> add https://github.com/DanielBoigk/EITData
+pkg> add https://github.com/DanielBoigk/EITData.jl
 ## Usage
 To use the package, you can import it in your Julia script:
 using EITData
