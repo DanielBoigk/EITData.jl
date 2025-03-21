@@ -10,7 +10,7 @@ module EITData
     #using PyCall
     #const mymodule = pyimport("../python/CalderonFEM.py")
     using SciPy
-    using ThreadsX
+    #using ThreadsX
     # Non necessity to do this:
     #const MeshIO = pyimport("meshio")
     #const np = pyimport("numpy")
