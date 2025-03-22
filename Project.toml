@@ -1,4 +1,4 @@
-name = "EITData.jl"
+name = "EITData"
 uuid = "57ccfdde-963d-4308-86f1-c5911503116d"
 authors = ["DanielBoigk <dn.boigk@gmail.com>"]
 version = "0.1.0"
