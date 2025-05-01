@@ -1,5 +1,5 @@
 
-
+# This contains all the information a potential neural net needs to know for training
 struct MinimalPair
     dim::Int
     # coordinates of the mesh

@@ -84,7 +84,7 @@ struct EITOperatorData
         u_n = get_trial_fe_basis(U_n)
         v_n = get_fe_basis(V_n)
         u_d = get_trial_fe_basis(U_d)
-        v_d = get_fe_basis(V_n)
+        v_d = get_fe_basis(V_d)
         matcontribs_n = a(u_n,v_n)
         matcontribs_d = a(u_d,v_d)
         matdata_n =  collect_cell_matrix(U_n,V_n,matcontribs_n)
