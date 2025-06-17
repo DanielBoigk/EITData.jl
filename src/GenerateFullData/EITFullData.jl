@@ -16,6 +16,23 @@ struct EITFullData
     op::EITOperatorData
     data::EITBoundaryData
 
+    function EITFullData(operator, data)
+        return new(operator, data)
+        
+    end
+
+    function EITFullData(cond_func, mesh, modes::Int64=0)
+        op = EITOperatorData(mesh, cond_func)
+        if modes <= 0 
+            data = EITBoundaryData(op, op.m-1)
+        elseif modes > op.m-1
+            data = EITBoundaryData(op, op.m-1)
+        else
+            data = EITBoundaryData(op, modes)
+        end
+        new(op, data)
+    end
+
     function EITFullData(cond_func = default_func(), path::String= "", modes::Int64=0)
         # load mesh of some kind
         # maybe check if there is a path given if not
@@ -70,4 +87,21 @@ struct EITFullData
     end
 
 
+end
+
+using Interpolations
+
+function FromImageData(img)
+    img_float = Float64.(img)
+    # Ensure positive values by adding 1e-6 to all zero values
+    img_float[img_float .== 0] .+= 1e-6
+    # Interpolate the image
+    img_interp = Interpolations.interpolate(img_float, BSpline(Linear()))
+    # get the size of the image in each dimension
+    size_x = size(img, 1)
+    size_y = size(img, 2)
+    domain = (-1,1,-1,1)
+    partition = (size_x,size_y)
+    mesh = CartesianDiscreteModel(domain,partition)
+    EITFullData(img_interp,mesh)
 end
