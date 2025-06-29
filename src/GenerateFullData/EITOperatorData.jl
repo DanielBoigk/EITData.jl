@@ -67,6 +67,8 @@ struct EITOperatorData
     N_n::Int64
     N_d::Int64
     m::Int64
+    assem_n
+    assem_d
     function EITOperatorData(mesh, conductivity)
         Ω = Triangulation(mesh)
         dΩ = Measure(Ω, 2)
@@ -94,6 +96,6 @@ struct EITOperatorData
         N_n = num_free_dofs(V_n)
         N_d = num_free_dofs(V_d)
         m = N_n-N_d
-        new(mesh,γ,Ω,dΩ,Γ,dΓ,V_n,U_n,V_d,U_d,u_n,v_n,u_d,v_d,reffe, K_d,K_n, N_n,N_d,m)
+        new(mesh,γ,Ω,dΩ,Γ,dΓ,V_n,U_n,V_d,U_d,u_n,v_n,u_d,v_d,reffe, K_d,K_n, N_n,N_d,m,assem_d,assem_n)
     end
 end

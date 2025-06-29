@@ -26,7 +26,7 @@ Generate a 2D array of continuous data with optional periodicity, positivity, an
 - Requires the `Statistics` package for mean calculations and assumes `gauß_filter` is defined elsewhere.
 """
 
-function gen_cont_data_2D( n_elem::Int=100, σ1::Float64=5.0, σ2::Float64=5.0,; pos_only::Bool=true, mode::String="abs", min_val::Float64=1.0e-10, is_periodic::Bool=false, mean_zero::Bool=false, use_scipy::Bool=true)
+function gen_cont_data_2D( n_elem::Int=150, σ1::Float64=7.0, σ2::Float64=7.0,; pos_only::Bool=true, mode::String="abs", min_val::Float64=1.0e-10, is_periodic::Bool=false, mean_zero::Bool=false, use_scipy::Bool=true)
     # Initialize array with random entries
     if is_periodic
         A = randn(n_elem, n_elem)
