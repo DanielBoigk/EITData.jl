@@ -92,14 +92,20 @@ end
 using Interpolations
 
 function FromImageData(img)
+    
+    # Convert image to Float64 and ensure positive values
     img_float = Float64.(img)
-    # Ensure positive values by adding 1e-6 to all zero values
     img_float[img_float .== 0] .+= 1e-6
-    # Interpolate the image
-    img_interp = Interpolations.interpolate(img_float, BSpline(Linear()))
-    # get the size of the image in each dimension
+
+    # Define the interpolation
+    itp = Interpolations.interpolate(img_float, BSpline(Linear()))
     size_x = size(img, 1)
     size_y = size(img, 2)
+    # Define the scaling to map indices to [-1, 1] × [-1, 1]
+    x_range = range(-1, 1, length=size_x)  # Map first dimension to [-1, 1]
+    y_range = range(-1, 1, length=size_y)  # Map second dimension to [-1, 1]
+    img_interp = Interpolations.scale(itp, x_range, y_range)
+
     domain = (-1,1,-1,1)
     partition = (size_x,size_y)
     mesh = CartesianDiscreteModel(domain,partition)
