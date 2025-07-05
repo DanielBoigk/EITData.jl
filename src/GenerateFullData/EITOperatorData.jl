@@ -69,7 +69,7 @@ struct EITOperatorData
     m::Int64
     assem_n
     assem_d
-    function EITOperatorData(mesh, conductivity)
+    function EITOperatorData(mesh, conductivity, γ_in_n_boundary = true)
         Ω = Triangulation(mesh)
         dΩ = Measure(Ω, 2)
         Γ = BoundaryTriangulation(mesh, tags= "boundary")
@@ -92,10 +92,20 @@ struct EITOperatorData
         matdata_n =  collect_cell_matrix(U_n,V_n,matcontribs_n)
         matdata_d =  collect_cell_matrix(U_d,V_d,matcontribs_d)
         K_n = assemble_matrix(assem_n,matdata_n)
+
+
         K_d = assemble_matrix(assem_d,matdata_d)
         N_n = num_free_dofs(V_n)
         N_d = num_free_dofs(V_d)
         m = N_n-N_d
+        if γ_in_n_boundary
+
+            γ_boundary = ones(Float64,N_n)
+            γ_boundary[1:m] .= 1.0 ./γ.free_values[1:m]
+            D = spdiagm(0 => γ_boundary)
+            K_n = K_n * D
+        end
+        
         new(mesh,γ,Ω,dΩ,Γ,dΓ,V_n,U_n,V_d,U_d,u_n,v_n,u_d,v_d,reffe, K_d,K_n, N_n,N_d,m,assem_d,assem_n)
     end
 end
