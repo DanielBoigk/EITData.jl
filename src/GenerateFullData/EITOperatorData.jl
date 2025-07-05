@@ -101,7 +101,7 @@ struct EITOperatorData
         if γ_in_n_boundary
 
             γ_boundary = ones(Float64,N_n)
-            γ_boundary[1:m] .= 1.0 ./γ.free_values[1:m]
+            γ_boundary[1:m] .= 1.0 .* γ.free_values[1:m]
             D = spdiagm(0 => γ_boundary)
             K_n = K_n * D
         end
